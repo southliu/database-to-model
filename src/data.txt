@@ -1,0 +1,2 @@
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(64) DEFAULT '' COMMENT '名称',
