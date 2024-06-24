@@ -57,24 +57,29 @@ export const getComponentProps = (component: ComponentType): ComponentProps | un
 // 将数组数据转成字符串
 export const arrToStr = (arr: unknown[]) => {
   const content = JSON.stringify(arr, null, 2)
-  return content
+  let result = '', left = 0, right = 0
 
-  // TODO
-  // let result = '', index = 0, left = 0, right = 1
+  while (left <= content.length) {
+    if (content[left] === '"') {
+      right = content.indexOf('"', left + 1)
 
-  // for (let i = 0; i < content.length; i++) {
-  //   const item = content[i];
-  //   if (item === '"') {
-  //     index++
-  //     if (index < 3) {
-  //       continue
-  //     }
-  //     if (index >= 4) index = 0
-  //   }
-  //   result += item
-  // }
+      // 如果结尾的下一位不是冒号，则跳过
+      if (content[right + 1] !== ':') {
+        if (content[left]) result += content[left]
+        left++
+        continue
+      }
 
-  // return result
+      result += content.substring(left + 1, right)
+      left = right + 1
+      continue
+    }
+
+    if (content[left]) result += content[left]
+    left++
+  }
+
+  return result.replace(new RegExp('"', 'g'), "'")
 }
 
 // 获取本地txt文件数组
